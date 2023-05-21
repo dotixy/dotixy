@@ -1,0 +1,17 @@
+<!-- gallery.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gallery</title>
+</head>
+<body>
+    <h1>Gallery</h1>
+    <p>Here are some of the drawings saved by users.</p>
+    <!-- loop through the drawings and display them as images -->
+    {% for drawing in drawings %}
+    <img src="{{ drawing.data }}" alt="Drawing">
+    {% endfor %}
+    <!-- create a link element to go back to the index page -->
+    <a href="/">Go Back</a>
+</body>
+</html>

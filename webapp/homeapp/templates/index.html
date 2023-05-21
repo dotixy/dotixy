@@ -1,0 +1,25 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Drawing App</title>
+    <!-- load the static files -->
+    {% load static %}
+    <!-- link to the external CSS file -->
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <h1>Dotixy Test</h1>
+    <p>Use your mouse to draw on the canvas. Click the save button to save your drawing.</p>
+    <!-- create a canvas element with an id of 'canvas' -->
+    <canvas id="canvas" width="500" height="500"></canvas>
+    <!-- create a button element with an id of 'save' -->
+    <button id="save">Save</button>
+    <!-- create a link element to the gallery page -->
+    <a href="/gallery">View Gallery</a>
+    <!-- include jQuery library -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- include the external JS file -->
+    <script src="{% static 'script.js' %}"></script>
+</body>
+</html>

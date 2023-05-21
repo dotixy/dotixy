@@ -1,0 +1,6 @@
+/* style.css */
+/* style the canvas element */
+canvas {
+  border: 1px solid black;
+  cursor: crosshair;
+}
