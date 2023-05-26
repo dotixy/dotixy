@@ -30,3 +30,29 @@ class instance_generator:
         instance.extend(customers)
 
         return instance
+    
+    def generate_clustered(self, nof_cluster: int, seed=None) -> List[List[float]]:
+        np.random.seed(seed)
+        locations = []
+        demands = []
+
+        # Generate cluster centers
+        cluster_centers = np.round(np.random.rand(nof_cluster, 2) * 100)
+
+        # Generate customers within each cluster
+        for center in cluster_centers:
+            num_customers_in_cluster = self.num_customers // nof_cluster
+            cluster_locations = np.round(center + np.random.randn(num_customers_in_cluster, 2) * 10)
+            locations.extend(cluster_locations.tolist())
+
+            cluster_demands = np.random.randint(1, self.capacity + 1, size=num_customers_in_cluster) // 2
+            demands.extend(cluster_demands.tolist())
+
+        depot = np.round(np.random.rand(2) * 100)
+        depot = np.append(depot, 0)  # Depot has no demand
+
+        instance = [depot.tolist()]  # Add depot as the first location in the instance
+        customers = [locations[i] + [demands[i]] for i in range(self.num_customers)]
+        instance.extend(customers)
+
+        return instance
