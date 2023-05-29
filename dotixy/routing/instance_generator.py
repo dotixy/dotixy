@@ -2,6 +2,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from typing import List
+import os
+import json
 
 import logging
 
@@ -14,7 +16,7 @@ class instance_generator:
         self.capacity = capacity
         logger.info('Generator initialized successfully..')
 
-    def generate(self, seed=None, visualize=False) -> List[List[float]]:
+    def generate(self, seed=None, visualize=False, save_to_file=None) -> List[List[float]]:
         np.random.seed(seed)
         locations = np.round(np.random.rand(self.num_customers, 2) * 100)
         demands = np.random.randint(1, self.capacity + 1, size=self.num_customers) // 2
@@ -28,12 +30,15 @@ class instance_generator:
         customers = [locations[i].tolist() + [demands[i]] for i in range(self.num_customers)]
         instance.extend(customers)
 
+        if save_to_file:
+            self.save_instance_to_file(instance, save_to_file)
+
         if visualize:
             self.visualize(instance)
 
         return instance
 
-    def generate_clustered(self, nof_cluster: int, seed=None, visualize=False) -> List[List[float]]:
+    def generate_clustered(self, nof_cluster: int, seed=None, visualize=False, save_to_file=None) -> List[List[float]]:
         np.random.seed(seed)
         locations = []
         demands = []
@@ -83,6 +88,9 @@ class instance_generator:
 
         instance.extend(customers)
 
+        if save_to_file:
+            self.save_instance_to_file(instance, save_to_file)
+
         if visualize:
             self.visualize(instance)
 
@@ -98,5 +106,13 @@ class instance_generator:
         plt.legend()
         plt.grid(True)
         plt.show()
+
+    def save_instance_to_file(self, instance, file_path):
+        dir_path = os.path.dirname(file_path)
+        os.makedirs(dir_path, exist_ok=True)
+        # Convert numpy types to Python types
+        instance = [[int(i) if isinstance(i, np.integer) else i for i in loc] for loc in instance]
+        with open(file_path, 'w') as file:
+            json.dump(instance, file)
 
 
